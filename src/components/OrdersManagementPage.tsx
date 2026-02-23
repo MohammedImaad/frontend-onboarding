@@ -3,7 +3,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   Loader2,
   Package,
-  MoreVertical,
   ChevronDown,
   MapPin,
   Mail,
@@ -19,7 +18,6 @@ export default function OrdersManagementPage() {
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
   const [expandedId, setExpandedId] = useState<string | null>(null);
-  const [menuOpenId, setMenuOpenId] = useState<string | null>(null);
   const [updatingId, setUpdatingId] = useState<string | null>(null);
 
   useEffect(() => {
@@ -41,7 +39,7 @@ export default function OrdersManagementPage() {
 
   const handleMarkCompleted = async (paymentId: string) => {
     setUpdatingId(paymentId);
-    setMenuOpenId(null);
+    // menu removed, no-op
     try {
       const session = getSession();
       if (!session) return;
@@ -150,44 +148,6 @@ export default function OrdersManagementPage() {
                     </span>
                   </div>
 
-                  {/* 3-dot menu */}
-                  <div className="relative">
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setMenuOpenId(menuOpenId === order.payment_id ? null : order.payment_id);
-                      }}
-                      className="rounded-lg p-1.5 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
-                    >
-                      {updatingId === order.payment_id ? (
-                        <Loader2 className="h-4 w-4 animate-spin" />
-                      ) : (
-                        <MoreVertical className="h-4 w-4" />
-                      )}
-                    </button>
-                    <AnimatePresence>
-                      {menuOpenId === order.payment_id && (
-                        <motion.div
-                          initial={{ opacity: 0, scale: 0.95 }}
-                          animate={{ opacity: 1, scale: 1 }}
-                          exit={{ opacity: 0, scale: 0.95 }}
-                          className="absolute right-0 top-full z-50 mt-1 w-44 rounded-lg border border-border bg-card p-1 shadow-2xl"
-                        >
-                          <button
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              handleMarkCompleted(order.payment_id);
-                            }}
-                            disabled={order.status === "success"}
-                            className="flex w-full items-center gap-2 rounded-md px-3 py-2 text-sm text-foreground transition-colors hover:bg-muted disabled:opacity-40"
-                          >
-                            <CheckCircle2 className="h-4 w-4 text-success" />
-                            Mark as Completed
-                          </button>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </div>
                 </div>
 
                 {/* Expanded details */}
@@ -264,14 +224,33 @@ export default function OrdersManagementPage() {
                           </div>
                         </div>
 
-                        {/* Timestamps */}
-                        <div className="mt-4 flex gap-4 border-t border-border pt-4">
-                          <span className="text-xs text-muted-foreground">
-                            Created: {formatDate(order.created_at)}
-                          </span>
-                          <span className="text-xs text-muted-foreground">
-                            Updated: {formatDate(order.updated_at)}
-                          </span>
+                        {/* Timestamps & Action */}
+                        <div className="mt-4 flex items-center justify-between border-t border-border pt-4">
+                          <div className="flex gap-4">
+                            <span className="text-xs text-muted-foreground">
+                              Created: {formatDate(order.created_at)}
+                            </span>
+                            <span className="text-xs text-muted-foreground">
+                              Updated: {formatDate(order.updated_at)}
+                            </span>
+                          </div>
+                          {order.status !== "success" && (
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleMarkCompleted(order.payment_id);
+                              }}
+                              disabled={updatingId === order.payment_id}
+                              className="flex items-center gap-2 rounded-lg bg-success/10 px-3 py-1.5 text-xs font-medium text-success transition-colors hover:bg-success/20 disabled:opacity-50"
+                            >
+                              {updatingId === order.payment_id ? (
+                                <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                              ) : (
+                                <CheckCircle2 className="h-3.5 w-3.5" />
+                              )}
+                              Mark as Completed
+                            </button>
+                          )}
                         </div>
                       </div>
                     </motion.div>
