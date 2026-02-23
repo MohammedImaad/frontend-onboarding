@@ -171,7 +171,7 @@ export default function OrdersManagementPage() {
                           initial={{ opacity: 0, scale: 0.95 }}
                           animate={{ opacity: 1, scale: 1 }}
                           exit={{ opacity: 0, scale: 0.95 }}
-                          className="absolute right-0 top-full z-10 mt-1 w-44 rounded-lg border border-border bg-card p-1 shadow-xl"
+                          className="absolute right-0 top-full z-50 mt-1 w-44 rounded-lg border border-border bg-card p-1 shadow-2xl"
                         >
                           <button
                             onClick={(e) => {
