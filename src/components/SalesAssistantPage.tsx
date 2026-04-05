@@ -32,7 +32,7 @@ export default function SalesAssistantPage() {
       const session = getSession();
       if (!session) return;
       const data = await queryAssistant(session.business_id, userMsg);
-      setMessages((prev) => [...prev, { role: "assistant", content: data.response }]);
+      setMessages((prev) => [...prev, { role: "assistant", content: data.answer }]);
     } catch {
       setMessages((prev) => [
         ...prev,

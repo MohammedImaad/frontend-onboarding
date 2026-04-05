@@ -25,6 +25,7 @@ export default function LoginPage({ onLogin }: LoginPageProps) {
         user_id: data.user_id,
         password_hash: btoa(password),
         business_id: data.business_id,
+        upload_batch_id:data.upload_batch_id,
         telegram_bot_token: data.telegram_bot_token,
       });
       onLogin();
