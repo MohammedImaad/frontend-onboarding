@@ -4,6 +4,7 @@ export interface SessionData {
   business_id: string;
   telegram_bot_token: string | null;
   upload_batch_id?: string;
+  ingestion_status?: string;
 }
 
 const SESSION_KEY = "amfa_session";

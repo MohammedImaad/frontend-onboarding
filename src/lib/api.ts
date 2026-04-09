@@ -20,6 +20,7 @@ export interface LoginResponse {
   user_id: string;
   business_id: string;
   telegram_bot_token: string | null;
+  upload_batch_id?: string;
 }
 
 export function login(user_id: string, password: string) {
@@ -37,7 +38,36 @@ export function ingest(url: string, business_id: string) {
 }
 
 export interface QueryResponse {
-  response: string;
+  answer: string;
+}
+
+export interface PreviewResponse {
+  products: Array<{ name: string; price: string; description?: string; image_url?: string }>;
+  texts: string[];
+}
+
+export function fetchPreview(business_id: string, upload_batch_id: string) {
+  return fetch(`${BASE_URL}/preview?business_id=${encodeURIComponent(business_id)}&upload_batch_id=${encodeURIComponent(upload_batch_id)}`)
+    .then((res) => {
+      if (!res.ok) throw new Error(`API error: ${res.status}`);
+      return res.json() as Promise<PreviewResponse>;
+    });
+}
+
+export interface ManualResponse {
+  status: string;
+}
+
+export function sendManual(business_id: string, upload_batch_id: string, text: string) {
+  return request<ManualResponse>("/manual", { business_id, upload_batch_id, text });
+}
+
+export interface CompleteIngestionResponse {
+  status: string;
+}
+
+export function completeIngestion(business_id: string, upload_batch_id: string) {
+  return request<CompleteIngestionResponse>("/complete-ingestion", { business_id, upload_batch_id });
 }
 
 export function queryAssistant(business_id: string, query: string) {

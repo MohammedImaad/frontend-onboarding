@@ -22,7 +22,7 @@ export default function ShopifyIngestionPage({ onComplete }: ShopifyIngestionPag
       const session = getSession();
       if (!session) return;
       const data = await ingest(url, session.business_id);
-      updateSession({ upload_batch_id: data.upload_batch_id });
+      updateSession({ upload_batch_id: data.upload_batch_id, ingestion_status: data.status });
       onComplete();
     } catch {
       setError("Failed to ingest products. Please check the URL.");
