@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import LoginPage from "@/components/LoginPage";
 import ShopifyIngestionPage from "@/components/ShopifyIngestionPage";
+import ReviewPage from "@/components/ReviewPage";
 import SalesAssistantPage from "@/components/SalesAssistantPage";
 import OrdersManagementPage from "@/components/OrdersManagementPage";
 import { getSession, isLoggedIn, isAdmin, hasUploadBatch, clearSession } from "@/lib/session";
@@ -69,6 +70,7 @@ const Index = () => {
         >
           {step === "login" && <LoginPage onLogin={refresh} />}
           {step === "ingestion" && <ShopifyIngestionPage onComplete={refresh} />}
+          {step === "review" && <ReviewPage onComplete={refresh} />}
           {step === "testing" && <SalesAssistantPage />}
           {step === "orders" && <OrdersManagementPage />}
         </motion.div>
