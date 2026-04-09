@@ -7,7 +7,7 @@ import OrdersManagementPage from "@/components/OrdersManagementPage";
 import { getSession, isLoggedIn, isAdmin, hasUploadBatch, clearSession } from "@/lib/session";
 import { LogOut } from "lucide-react";
 
-type AppStep = "login" | "ingestion" | "testing" | "orders";
+type AppStep = "login" | "ingestion" | "review" | "testing" | "orders";
 
 function resolveStep(): AppStep {
   if (!isLoggedIn()) return "login";
@@ -19,6 +19,7 @@ function resolveStep(): AppStep {
 
   // Admin flow
   if (!hasUploadBatch()) return "ingestion";
+  if (session.ingestion_status === "pending_review") return "review";
   return "testing";
 }
 
