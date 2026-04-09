@@ -113,7 +113,7 @@ export default function ReviewPage({ onComplete }: ReviewPageProps) {
             <p className="text-sm text-destructive">{error}</p>
           ) : preview ? (
             <div className="space-y-4">
-              {preview.products.length > 0 && (
+              {preview.products?.length > 0 && (
                 <div>
                   <h3 className="mb-2 flex items-center gap-2 text-xs font-medium uppercase tracking-wider text-muted-foreground">
                     <Package className="h-3.5 w-3.5" /> Products ({preview.products.length})
@@ -122,20 +122,20 @@ export default function ReviewPage({ onComplete }: ReviewPageProps) {
                     {preview.products.map((p, i) => (
                       <div key={i} className="flex items-center justify-between rounded-lg border border-border bg-muted/30 px-3 py-2">
                         <span className="text-sm text-foreground">{p.name}</span>
-                        <span className="text-xs text-muted-foreground">{p.price}</span>
+                        <span className="text-xs text-muted-foreground">₹{p.price}</span>
                       </div>
                     ))}
                   </div>
                 </div>
               )}
-              {preview.texts.length > 0 && (
+              {preview.chunks?.length > 0 && (
                 <div>
                   <h3 className="mb-2 flex items-center gap-2 text-xs font-medium uppercase tracking-wider text-muted-foreground">
                     <FileText className="h-3.5 w-3.5" /> Content
                   </h3>
                   <div className="space-y-1">
-                    {preview.texts.map((t, i) => (
-                      <p key={i} className="text-sm text-muted-foreground">{t}</p>
+                    {preview.chunks.map((c, i) => (
+                      <p key={i} className="text-sm text-muted-foreground">{c.text}</p>
                     ))}
                   </div>
                 </div>

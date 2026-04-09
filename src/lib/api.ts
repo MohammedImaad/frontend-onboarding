@@ -41,9 +41,22 @@ export interface QueryResponse {
   answer: string;
 }
 
+export interface PreviewProduct {
+  name: string;
+  price: number | string;
+  description?: string;
+  images?: string[];
+  [key: string]: unknown;
+}
+
+export interface PreviewChunk {
+  source_type: string;
+  text: string;
+}
+
 export interface PreviewResponse {
-  products: Array<{ name: string; price: string; description?: string; image_url?: string }>;
-  texts: string[];
+  products: PreviewProduct[];
+  chunks: PreviewChunk[];
 }
 
 export function fetchPreview(business_id: string, upload_batch_id: string) {
